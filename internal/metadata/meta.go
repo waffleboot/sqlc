@@ -42,25 +42,14 @@ func validateQueryName(name string) error {
 func Parse(t string, commentStyle CommentSyntax) (string, string, error) {
 	for _, line := range strings.Split(t, "\n") {
 		var waitingPrefix string
-		if strings.HasPrefix(line, "--") {
-			if !commentStyle.Dash {
-				continue
-			}
+		switch {
+		case strings.HasPrefix(line, "--") && commentStyle.Dash:
 			waitingPrefix = "-- name:"
-		}
-		if strings.HasPrefix(line, "/*") {
-			if !commentStyle.SlashStar {
-				continue
-			}
+		case strings.HasPrefix(line, "/*") && commentStyle.SlashStar:
 			waitingPrefix = "/* name:"
-		}
-		if strings.HasPrefix(line, "#") {
-			if !commentStyle.Hash {
-				continue
-			}
+		case strings.HasPrefix(line, "#") && commentStyle.Hash:
 			waitingPrefix = "# name:"
-		}
-		if waitingPrefix == "" {
+		default:
 			continue
 		}
 		if !strings.HasPrefix(line, waitingPrefix) {
