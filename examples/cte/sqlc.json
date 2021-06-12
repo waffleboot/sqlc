@@ -1,0 +1,16 @@
+{
+    "version": "2",
+    "sql": [
+        {
+            "engine": "postgresql",
+            "schema": "postgresql/schema.sql",
+            "queries": "postgresql/query.sql",
+            "gen": {
+                "go": {
+                    "package": "cte",
+                    "out": "postgresql"
+                }
+            }
+        }
+    ]
+}
