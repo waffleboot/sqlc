@@ -41,29 +41,29 @@ func validateQueryName(name string) error {
 
 func Parse(t string, commentStyle CommentSyntax) (string, string, error) {
 	for _, line := range strings.Split(t, "\n") {
-		var prefix string
+		var waitingPrefix string
 		if strings.HasPrefix(line, "--") {
 			if !commentStyle.Dash {
 				continue
 			}
-			prefix = "-- name:"
+			waitingPrefix = "-- name:"
 		}
 		if strings.HasPrefix(line, "/*") {
 			if !commentStyle.SlashStar {
 				continue
 			}
-			prefix = "/* name:"
+			waitingPrefix = "/* name:"
 		}
 		if strings.HasPrefix(line, "#") {
 			if !commentStyle.Hash {
 				continue
 			}
-			prefix = "# name:"
+			waitingPrefix = "# name:"
 		}
-		if prefix == "" {
+		if waitingPrefix == "" {
 			continue
 		}
-		if !strings.HasPrefix(line, prefix) {
+		if !strings.HasPrefix(line, waitingPrefix) {
 			continue
 		}
 
